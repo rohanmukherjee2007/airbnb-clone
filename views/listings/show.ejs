@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airbnb: <%= listing.title %></title>
+</head>
+<body>
+    <ul>
+        <li>Title: <%= listing.title %></li>
+        <li>Description: <%= listing.description %></li>
+        <li>Price: <%= listing.price.toLocaleString("en-US") %></li>
+        <li>Location: <%= listing.location %></li>
+        <li>Country: <%= listing.country %></li>
+        <img src="<%= listing.image.url %>"/>
+    </ul>
+</body>
+</html>

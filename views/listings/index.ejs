@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airbnb Clone</title>
+</head>
+<body>
+    <% for (const listing of allListings) { %>
+        <a href= "/listings/<%= listing._id %>"> <%= listing.title %> </a>
+        <br/>
+    <% } %>
+</body>
+</html>
