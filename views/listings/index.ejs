@@ -6,6 +6,9 @@
     <title>Airbnb Clone</title>
 </head>
 <body>
+    <form method="GET" action="/listings/new">
+        <button>Create a new listing</button>
+    </form>
     <% for (const listing of allListings) { %>
         <a href= "/listings/<%= listing._id %>"> <%= listing.title %> </a>
         <br/>

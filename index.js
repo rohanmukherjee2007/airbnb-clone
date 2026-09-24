@@ -34,11 +34,16 @@ app.get('/listings', async (req, res) => {
     res.render("listings/index.ejs", { allListings });
 });
 
-//Show Route
+//New Listing Page
+app.get('/listings/new', async (req, res) => {
+    
+});
+
+//Show Single Listing Route
 app.get('/listings/:id', async (req, res) => {
     const id = req.params.id;
     const listing = await Listing.findOne({ _id: id });
-    res.render("listings/show.ejs", { listing });
+    res.render("listings/showlisting.ejs", { listing });
 });
 
 app.listen(3000, () => {
