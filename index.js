@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import methodOverride from 'method-override';
 import path from "path";
 import { fileURLToPath } from "url";
 import Listing from './models/listing.js';
@@ -11,6 +12,7 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -34,9 +36,9 @@ app.get('/listings', async (req, res) => {
     res.render("listings/index.ejs", { allListings });
 });
 
-//New Listing Page
+//Create listing Page
 app.get('/listings/new', async (req, res) => {
-    res.render("listings/newlisting.ejs");
+    res.render("listings/createlisting.ejs");
 });
 
 //Show Single Listing Route
@@ -63,6 +65,31 @@ app.post('/listings', async (req, res) => {
     const newListing = new Listing(listingObject);
     await newListing.save();
     res.redirect('/listings');
+});
+
+//Show Edit Page
+app.get('/listings/:id/edit', async (req, res) => {
+    const id = req.params.id;
+    const listing = await Listing.findOne({_id: id});
+    res.render("listings/editlisting.ejs", { listing });
+});
+
+//Perform Edit
+app.put('/listings/:id', async (req, res) => {
+    const id = req.params.id;
+    const { title, description, image, price, location, country } = req.body;
+    await Listing.findByIdAndUpdate(id, {
+        title,
+        description,
+        image: {
+            filename: 'filename',
+            url: image
+        },
+        price,
+        location,
+        country
+    });
+    res.redirect(`/listings/${id}`);
 });
 
 //Delete Listing Route
