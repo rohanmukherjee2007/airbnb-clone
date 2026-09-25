@@ -36,7 +36,7 @@ app.get('/listings', async (req, res) => {
 
 //New Listing Page
 app.get('/listings/new', async (req, res) => {
-    
+    res.render("listings/newlisting.ejs");
 });
 
 //Show Single Listing Route
@@ -44,6 +44,25 @@ app.get('/listings/:id', async (req, res) => {
     const id = req.params.id;
     const listing = await Listing.findOne({ _id: id });
     res.render("listings/showlisting.ejs", { listing });
+});
+
+//Create New Listing
+app.post('/listings', async (req, res) => {
+    const { title, description, image, price, location, country } = req.body;
+    const listingObject = {
+        title: title,
+        description: description,
+        image: {
+            filename: "listingimage",
+            url: image
+        },
+        price: price,
+        location: location,
+        country: country
+    };
+    const newListing = new Listing(listingObject);
+    await newListing.save();
+    res.redirect('/listings');
 });
 
 app.listen(3000, () => {
