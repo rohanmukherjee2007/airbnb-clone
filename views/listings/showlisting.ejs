@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airbnb: <%= listing.title %></title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/modifylisting.js" defer></script>
 </head>
 <body>
+    <button id="edit">Edit</button>
+    <button id="delete">Delete</button>
     <ul>
         <li>Title: <%= listing.title %></li>
         <li>Description: <%= listing.description %></li>

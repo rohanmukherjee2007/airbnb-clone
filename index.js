@@ -65,6 +65,13 @@ app.post('/listings', async (req, res) => {
     res.redirect('/listings');
 });
 
+//Delete Listing Route
+app.delete('/listings/:id', async (req, res) => {
+    const id = req.params.id;
+    await Listing.deleteOne({_id: id});
+    res.sendStatus(204);
+});
+
 app.listen(3000, () => {
     console.log("Server started on port 3000");
 });
