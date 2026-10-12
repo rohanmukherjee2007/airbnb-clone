@@ -1,4 +1,5 @@
 import express from 'express';
+import ejsMate from 'ejs-mate';
 import mongoose from 'mongoose';
 import methodOverride from 'method-override';
 import path from "path";
@@ -12,6 +13,7 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.engine("ejs", ejsMate);
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
@@ -38,14 +40,14 @@ app.get('/listings', async (req, res) => {
 
 //Create listing Page
 app.get('/listings/new', async (req, res) => {
-    res.render("listings/createlisting.ejs");
+    res.render("listings/createlisting.ejs", { title: "Airbnb: New Listing" });
 });
 
 //Show Single Listing Route
 app.get('/listings/:id', async (req, res) => {
     const id = req.params.id;
-    const listing = await Listing.findOne({ _id: id });
-    res.render("listings/showlisting.ejs", { listing });
+    const listing = await Listing.findById(id);
+    res.render("listings/showlisting.ejs", { listing, title: `Airbnb: ${listing.title}` });
 });
 
 //Create New Listing
@@ -70,8 +72,8 @@ app.post('/listings', async (req, res) => {
 //Show Edit Page
 app.get('/listings/:id/edit', async (req, res) => {
     const id = req.params.id;
-    const listing = await Listing.findOne({_id: id});
-    res.render("listings/editlisting.ejs", { listing });
+    const listing = await Listing.findById(id);
+    res.render("listings/editlisting.ejs", { listing, title: `Airbnb: Editing ${listing.title}` });
 });
 
 //Perform Edit
@@ -82,7 +84,7 @@ app.put('/listings/:id', async (req, res) => {
         title,
         description,
         image: {
-            filename: 'filename',
+            filename: 'listingimage',
             url: image
         },
         price,
@@ -95,7 +97,7 @@ app.put('/listings/:id', async (req, res) => {
 //Delete Listing Route
 app.delete('/listings/:id', async (req, res) => {
     const id = req.params.id;
-    await Listing.deleteOne({_id: id});
+    await Listing.findByIdAndDelete(id);
     res.sendStatus(204);
 });
 

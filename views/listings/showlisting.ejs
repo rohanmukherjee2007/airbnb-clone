@@ -1,22 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Airbnb: <%= listing.title %></title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/modifylisting.js" defer></script>
-</head>
-<body>
-    <a href="/listings/<%= listing._id %>/edit">Edit</a>
-    <button id="delete">Delete</button>
-    <ul>
-        <li>Title: <%= listing.title %></li>
-        <li>Description: <%= listing.description %></li>
-        <li>Price: <%= listing.price.toLocaleString("en-US") %></li>
-        <li>Location: <%= listing.location %></li>
-        <li>Country: <%= listing.country %></li>
-        <img src="<%= listing.image.url %>"/>
-    </ul>
-</body>
-</html>
+<% layout('/layouts/boilerplate') -%>
+<% block('scripts').append('<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>') %>
+<% block('scripts').append('<script src="/modifylisting.js" defer></script>') %>
+<a href="/listings/<%= listing._id %>/edit">Edit</a>
+<button id="delete">Delete</button>
+<ul>
+    <li>Title: <%= listing.title %></li>
+    <li>Description: <%= listing.description %></li>
+    <li>Price: <%= listing.price.toLocaleString("en-US") %></li>
+    <li>Location: <%= listing.location %></li>
+    <li>Country: <%= listing.country %></li>
+    <img src="<%= listing.image.url %>"/>
+</ul>
