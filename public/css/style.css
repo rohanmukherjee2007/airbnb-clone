@@ -10,3 +10,40 @@
 .nav-link {
     color: #222222;
 }
+
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+
+.f-info-links {
+    width: 100%;
+}
+
+.f-info-socials {
+    margin-top: 15px;
+    width: 100%;
+    font-size: 1.5rem;
+}
+
+.f-info {
+    text-align: center;
+    height: 8rem;
+    display: flex;
+    background-color: #ebebeb;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.dot {
+    font-size: 1.4em;
+    line-height: 1;
+    position: relative;
+    top: 2px;
+    -webkit-user-select: none;
+    user-select: none;
+}
