@@ -1,10 +1,10 @@
-import express from 'express';
-import ejsMate from 'ejs-mate';
-import mongoose from 'mongoose';
-import methodOverride from 'method-override';
+import express from "express";
+import ejsMate from "ejs-mate";
+import mongoose from "mongoose";
+import methodOverride from "method-override";
 import path from "path";
 import { fileURLToPath } from "url";
-import Listing from './models/listing.js';
+import Listing from "./models/listing.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,12 +14,13 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-mongoose.connect("mongodb://127.0.0.1:27017/airbnb-clone")
+mongoose
+    .connect("mongodb://127.0.0.1:27017/airbnb-clone")
     .then(() => {
         console.log("Connected to MongoDB");
     })
@@ -28,74 +29,80 @@ mongoose.connect("mongodb://127.0.0.1:27017/airbnb-clone")
         console.log(err);
     });
 
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
     res.send("Connected");
 });
 
 //Index Route
-app.get('/listings', async (req, res) => {
+app.get("/listings", async (req, res) => {
     const allListings = await Listing.find();
     res.render("listings/index.ejs", { allListings });
 });
 
 //Create listing Page
-app.get('/listings/new', async (req, res) => {
+app.get("/listings/new", async (req, res) => {
     res.render("listings/createlisting.ejs", { title: "Airbnb: New Listing" });
 });
 
 //Show Single Listing Route
-app.get('/listings/:id', async (req, res) => {
+app.get("/listings/:id", async (req, res) => {
     const id = req.params.id;
     const listing = await Listing.findById(id);
-    res.render("listings/showlisting.ejs", { listing, title: `Airbnb: ${listing.title}` });
+    res.render("listings/showlisting.ejs", {
+        listing,
+        title: `Airbnb: ${listing.title}`,
+    });
 });
 
 //Create New Listing
-app.post('/listings', async (req, res) => {
+app.post("/listings", async (req, res) => {
     const { title, description, image, price, location, country } = req.body;
     const listingObject = {
         title: title,
         description: description,
         image: {
             filename: "listingimage",
-            url: image
+            url: image,
         },
         price: price,
         location: location,
-        country: country
+        country: country,
     };
     const newListing = new Listing(listingObject);
     await newListing.save();
-    res.redirect('/listings');
+    res.redirect("/listings");
 });
 
 //Show Edit Page
-app.get('/listings/:id/edit', async (req, res) => {
+app.get("/listings/:id/edit", async (req, res) => {
     const id = req.params.id;
     const listing = await Listing.findById(id);
-    res.render("listings/editlisting.ejs", { listing, title: `Airbnb: Editing ${listing.title}` });
+    res.render("listings/editlisting.ejs", {
+        listing,
+        title: `Airbnb: Editing ${listing.title}`,
+    });
 });
 
 //Perform Edit
-app.put('/listings/:id', async (req, res) => {
+app.put("/listings/:id", async (req, res) => {
     const id = req.params.id;
     const { title, description, image, price, location, country } = req.body;
     await Listing.findByIdAndUpdate(id, {
         title,
         description,
         image: {
-            filename: 'listingimage',
-            url: image
+            filename: "listingimage",
+            url: image,
         },
         price,
         location,
-        country
+        country,
     });
     res.redirect(`/listings/${id}`);
 });
 
 //Delete Listing Route
-app.delete('/listings/:id', async (req, res) => {
+app.delete("/listings/:id", async (req, res) => {
     const id = req.params.id;
     await Listing.findByIdAndDelete(id);
     res.sendStatus(204);
