@@ -1,0 +1,33 @@
+.listing-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.card {
+    border: none;
+    margin-bottom: 2rem;
+}
+
+.card-img-overlay {
+    background-color: white;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.card:hover .card-img-overlay {
+    opacity: 0.2;
+}
+
+.card-img-top {
+    border-radius: 1rem;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 0;
+}
+
+.card-text {
+    font-weight: 400;
+}

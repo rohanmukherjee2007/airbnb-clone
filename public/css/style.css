@@ -1,7 +1,7 @@
-* {
-    margin: 0;
-    padding: 0;
+:root {
+    --brand-red: #fe424d;
 }
+
 body {
     font-family: "Plus Jakarta Sans", sans-serif;
     display: flex;
@@ -13,18 +13,22 @@ main {
     flex: 1;
 }
 
+/* Navbar */
+
 .navbar {
     min-height: 5rem;
 }
 
 .fa-compass {
-    color: #fe424d;
+    color: var(--brand-red);
     font-size: 2rem;
 }
 
 .nav-link {
     color: #222222;
 }
+
+/* Footer */
 
 .f-info-links a {
     text-decoration: none;
@@ -61,45 +65,4 @@ main {
     top: 2px;
     -webkit-user-select: none;
     user-select: none;
-}
-
-.listing-link {
-    text-decoration: none;
-    color: inherit;
-}
-
-.card {
-    border: none;
-    margin-bottom: 2rem;
-}
-
-.card-img-overlay {
-    background-color: white;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-.card:hover .card-img-overlay {
-    opacity: 0.2;
-}
-
-.card-img-top {
-    border-radius: 1rem;
-    width: 100%;
-    object-fit: cover;
-}
-
-.card-body {
-    padding: 0;
-}
-
-.card-text {
-    font-weight: 400;
-}
-
-.create-listing-button {
-    --bs-btn-bg: #ff5a5f;
-    --bs-btn-hover-bg: #c9363b;
-    --bs-btn-active-bg: #b02a2f;
-    border: none;
 }
