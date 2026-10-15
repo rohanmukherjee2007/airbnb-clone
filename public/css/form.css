@@ -1,6 +1,0 @@
-.create-listing-button {
-    --bs-btn-bg: var(--brand-red);
-    --bs-btn-hover-bg: #c9363b;
-    --bs-btn-active-bg: #b02a2f;
-    border: none;
-}

@@ -1,0 +1,19 @@
+.show-card {
+    border: none;
+}
+
+.show-img {
+    height: 20rem;
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+.show-card .card-body {
+    padding: 0.25rem 0 0;
+}
+
+.show-btns {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}

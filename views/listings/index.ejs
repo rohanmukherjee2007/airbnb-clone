@@ -8,7 +8,7 @@
       <img class="card-img-top" src="<%= listing.image.url %>" style="height: 20rem;" alt="<%= listing.image.filename %>">
       <div class="card-body">
         <h5 class="card-title fw-bold"><%= listing.title %></h5>
-        <p class="card-text"><%= listing.price.toLocaleString("en-US") %> / night</p>
+        <p class="card-text">$<%= listing.price.toLocaleString("en-US") %> / night</p>
       </div>
       <div class="card-img-overlay"></div>
     </div>

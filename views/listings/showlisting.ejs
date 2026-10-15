@@ -1,13 +1,29 @@
 <% layout('/layouts/boilerplate') -%>
+<% block('styles').append('<link rel="stylesheet" href="/css/show.css">') %>
 <% block('scripts').append('<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>') %>
 <% block('scripts').append('<script src="/modifylisting.js" defer></script>') %>
-<a href="/listings/<%= listing._id %>/edit">Edit</a>
-<button id="delete">Delete</button>
-<ul>
-    <li>Title: <%= listing.title %></li>
-    <li>Description: <%= listing.description %></li>
-    <li>Price: <%= listing.price.toLocaleString("en-US") %></li>
-    <li>Location: <%= listing.location %></li>
-    <li>Country: <%= listing.country %></li>
-    <img src="<%= listing.image.url %>"/>
-</ul>
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h3>Listing Details</h3>
+        <div class="card show-card">
+            <img
+                class="card-img-top show-img"
+                src="<%= listing.image.url %>"
+                alt="<%= listing.image.filename %>"
+            />
+            <div class="card-body">
+                <p class="card-text">
+                    <b><%= listing.title %></b><br />
+                    <%= listing.description %><br />
+                    $<%= listing.price.toLocaleString("en-US") %><br />
+                    <%= listing.location %><br />
+                    <%= listing.country %>
+                </p>
+            </div>
+        </div>
+        <div class="show-btns">
+            <a href="/listings/<%= listing._id %>/edit" class="btn brand-btn px-4">Edit</a>
+            <button id="delete" class="btn btn-dark">Delete</button>
+        </div>
+    </div>
+</div>

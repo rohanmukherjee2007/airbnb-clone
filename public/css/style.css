@@ -13,6 +13,18 @@ main {
     flex: 1;
 }
 
+/* Buttons */
+
+.brand-btn {
+    --bs-btn-color: white;
+    --bs-btn-bg: var(--brand-red);
+    --bs-btn-hover-color: white;
+    --bs-btn-hover-bg: #c9363b;
+    --bs-btn-active-color: white;
+    --bs-btn-active-bg: #b02a2f;
+    border: none;
+}
+
 /* Navbar */
 
 .navbar {
