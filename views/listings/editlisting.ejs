@@ -1,5 +1,10 @@
 <% layout('/layouts/boilerplate') -%>
-<form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+<form
+    method="POST"
+    action="/listings/<%= listing._id %>?_method=PUT"
+    novalidate
+    class="needs-validation"
+>
     <div class="row">
         <div class="col-8 offset-2">
             <h2>Edit Listing</h2>
@@ -11,7 +16,9 @@
                     value="<%= listing.title %>"
                     placeholder="Enter Title"
                     class="form-control"
+                    required
                 />
+                <div class="invalid-feedback">Please enter a title.</div>
             </div>
             <div class="desc-div mb-3">
                 <label for="description" class="form-label"
@@ -22,7 +29,9 @@
                     name="description"
                     placeholder="Enter Description"
                     class="form-control"
+                    required
                 ><%= listing.description %></textarea>
+                <div class="invalid-feedback">Please enter a description.</div>
             </div>
             <div class="img-div mb-3">
                 <label for="image" class="form-label">Image URL:&nbsp;</label>
@@ -32,7 +41,9 @@
                     value="<%= listing.image.url %>"
                     placeholder="Enter Image URL"
                     class="form-control"
+                    type="url"
                 />
+                <div class="invalid-feedback">Please enter a valid URL.</div>
             </div>
             <div class="row">
                 <div class="price-div col-md-6 mb-3">
@@ -44,7 +55,12 @@
                         value="<%= listing.price %>"
                         placeholder="Enter Price"
                         class="form-control"
+                        required
+                        min="0"
                     />
+                    <div class="invalid-feedback">
+                        Please enter a price of 0 or more.
+                    </div>
                 </div>
                 <div class="country-div col-md-6 mb-3">
                     <label for="country" class="form-label"
@@ -67,7 +83,9 @@
                     value="<%= listing.location %>"
                     placeholder="Enter Location"
                     class="form-control"
+                    required
                 />
+                <div class="invalid-feedback">Please enter a location.</div>
             </div>
             <button type="submit" class="btn brand-btn d-block mx-auto">
                 Save Changes
