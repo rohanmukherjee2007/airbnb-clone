@@ -29,6 +29,13 @@ mongoose
         console.log(err);
     });
 
+app.use((req, res, next) => {
+    req.time = new Date().toISOString();
+    console.log(req.method, req.hostname, req.path);
+    console.log(req.time);
+    next();
+});
+
 app.get("/", (req, res) => {
     res.send("Connected");
 });
