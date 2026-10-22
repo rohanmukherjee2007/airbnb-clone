@@ -115,6 +115,17 @@ app.delete("/listings/:id", async (req, res) => {
     res.sendStatus(204);
 });
 
+//Custom 404 page using a GET route to make redirection from a middleware possible
+app.get("/404", (req, res) => {
+    res.status(404);
+    res.render("./error/404.ejs");
+});
+
+//404 middleware to trigger when no route gets a match
+app.use((req, res) => {
+    res.redirect("/404");
+});
+
 app.listen(3000, () => {
     console.log("Server started on port 3000");
 });
