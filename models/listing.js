@@ -16,9 +16,14 @@ const listingSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
+        required: true,
+        min: 0,
         set: value => Math.round(value)
     },
-    location: String,
+    location: {
+        type: String,
+        required: true
+    },
     country: {
         type: String,
         default: "India",

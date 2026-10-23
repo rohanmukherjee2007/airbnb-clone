@@ -5,6 +5,7 @@ import methodOverride from "method-override";
 import path from "path";
 import { fileURLToPath } from "url";
 import Listing from "./models/listing.js";
+import { NotFoundError, SchemaValidationError } from "./utils/errors.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,6 +56,9 @@ app.get("/listings/new", async (req, res) => {
 app.get("/listings/:id", async (req, res) => {
     const id = req.params.id;
     const listing = await Listing.findById(id);
+    if (!listing) {
+        throw new NotFoundError("Listing not found");
+    }
     res.render("listings/showlisting.ejs", {
         listing,
         title: `Airbnb: ${listing.title}`,
@@ -75,6 +79,11 @@ app.post("/listings", async (req, res) => {
         location: location,
         country: country,
     };
+    const required = ["title", "price", "location"];
+    const missing = required.filter(key => !req.body[key]?.toString().trim());
+    if (missing.length) {
+        throw new SchemaValidationError(`${missing[0]} cannot be empty`, 400, missing[0]);
+    }
     const newListing = new Listing(listingObject);
     await newListing.save();
     res.redirect("/listings");
@@ -84,6 +93,9 @@ app.post("/listings", async (req, res) => {
 app.get("/listings/:id/edit", async (req, res) => {
     const id = req.params.id;
     const listing = await Listing.findById(id);
+    if (!listing) {
+        throw new NotFoundError("Listing not found");
+    }
     res.render("listings/editlisting.ejs", {
         listing,
         title: `Airbnb: Editing ${listing.title}`,
@@ -104,7 +116,7 @@ app.put("/listings/:id", async (req, res) => {
         price,
         location,
         country,
-    });
+    }, { runValidators: true });
     res.redirect(`/listings/${id}`);
 });
 
@@ -115,15 +127,23 @@ app.delete("/listings/:id", async (req, res) => {
     res.sendStatus(204);
 });
 
-//Custom 404 page using a GET route to make redirection from a middleware possible
-app.get("/404", (req, res) => {
-    res.status(404);
-    res.render("./error/404.ejs");
+//404 middleware to trigger when no route gets a match
+app.use((req, res, next) => {
+    next(new NotFoundError("Page not found"));
 });
 
-//404 middleware to trigger when no route gets a match
-app.use((req, res) => {
-    res.redirect("/404");
+//Error handling middleware
+app.use((err, req, res, next) => {
+    //Malformed ObjectIds in :id throw a CastError, treat them as not found
+    if (err.name === "CastError") {
+        err = new NotFoundError("Listing not found");
+    }
+    const { statusCode = 500, message = "Something went wrong", name = "Error" } = err;
+    res.status(statusCode);
+    if (statusCode === 404) {
+        return res.render("./error/404.ejs");
+    }
+    res.send(`${name}: ${message}`);
 });
 
 app.listen(3000, () => {
